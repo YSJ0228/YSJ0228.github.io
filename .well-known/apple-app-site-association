@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "APPLE_TEAM_ID.com.moamoa.app",
+        "appID": "XDN5556BGC.com.moamoa.app",
         "paths": ["/join", "/join/*"]
       }
     ]
