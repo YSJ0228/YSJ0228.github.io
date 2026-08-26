@@ -1,0 +1,6 @@
+# Cloudflare Pages 전용 — GitHub Pages는 이 파일을 무시합니다.
+# iOS AASA는 Content-Type이 application/json이어야 안전합니다.
+/.well-known/apple-app-site-association
+  Content-Type: application/json
+/.well-known/assetlinks.json
+  Content-Type: application/json

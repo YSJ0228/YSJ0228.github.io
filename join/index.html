@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모아모아 가계부 초대</title>
+<meta name="description" content="모아모아 가계부에 초대되었어요. 링크를 눌러 참여하세요.">
+<meta property="og:title" content="모아모아 가계부 초대">
+<meta property="og:description" content="함께 쓰는 가계부, 모아모아에 초대되었어요!">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#F5B800; --gold-soft:#FFF7DC; --gold-deep:#D4970A;
+    --text:#1A1A1A; --text2:#6B6B6B; --text3:#A8A8A8;
+    --line:#ECECEC; --bg:#FBF9EB; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Jua',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px 20px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:100%; max-width:400px; text-align:center}
+  .logo{font-size:30px; color:var(--gold-deep); margin-bottom:6px}
+  .lede{font-size:15px; color:var(--text2); line-height:1.6; margin-bottom:22px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:22px;
+    padding:26px 20px; box-shadow:0 6px 20px rgba(0,0,0,.05); margin-bottom:18px;
+  }
+  .label{font-size:12px; color:var(--text3); letter-spacing:.08em; margin-bottom:12px}
+  .code{display:flex; gap:7px; justify-content:center; margin-bottom:16px}
+  .ch{
+    width:40px; height:52px; border-radius:12px; background:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; color:var(--gold-deep);
+  }
+  .copy{
+    width:100%; padding:12px; border:1px solid var(--line); border-radius:14px;
+    background:#fff; color:var(--text2); font-family:inherit; font-size:14px; cursor:pointer;
+  }
+  .copy:active{background:#FAFAFA}
+  .copy.done{background:var(--gold-soft); color:var(--gold-deep); border-color:var(--gold)}
+  .btn{
+    display:flex; align-items:center; justify-content:center;
+    width:100%; padding:16px; border:none; border-radius:16px;
+    font-family:inherit; font-size:17px; cursor:pointer; text-decoration:none;
+    margin-bottom:10px;
+  }
+  .btn-main{background:var(--gold); color:#1A1A1A; box-shadow:0 4px 12px rgba(245,184,0,.32)}
+  .btn-sub{background:#fff; color:var(--text); border:1px solid var(--line)}
+  .divider{
+    display:flex; align-items:center; gap:10px;
+    color:var(--text3); font-size:12px; margin:20px 0 14px;
+  }
+  .divider::before,.divider::after{content:''; flex:1; height:1px; background:var(--line)}
+  .hint{font-size:12.5px; color:var(--text3); line-height:1.7; margin-top:18px}
+  .kakao-tip{
+    display:none; background:var(--gold-soft); border-radius:14px;
+    padding:13px 15px; font-size:13px; color:var(--gold-deep);
+    line-height:1.6; margin-bottom:16px; text-align:left;
+  }
+  .kakao-tip.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">모아모아</div>
+  <p class="lede">함께 쓰는 가계부에<br>초대되었어요!</p>
+
+  <div class="kakao-tip" id="kakaoTip">
+    카카오톡 안에서는 앱이 바로 안 열릴 수 있어요.<br>
+    오른쪽 아래 <b>⋯ → 다른 브라우저로 열기</b>를 눌러주세요.
+  </div>
+
+  <div class="card">
+    <div class="label">초대 코드</div>
+    <div class="code" id="codeBox"></div>
+    <button class="copy" id="copyBtn">코드 복사하기</button>
+  </div>
+
+  <a class="btn btn-main" id="openApp" href="#">모아모아 앱으로 열기</a>
+
+  <div class="divider">앱이 없다면</div>
+
+  <a class="btn btn-sub" id="playBtn"
+     href="https://play.google.com/store/apps/details?id=com.moamoa.app">Google Play에서 설치</a>
+  <a class="btn btn-sub" id="appStoreBtn"
+     href="https://apps.apple.com/app/id6782798344">App Store에서 설치</a>
+
+  <p class="hint">
+    설치 후 앱을 열고 <b>가계부 참여</b>에서<br>위 초대 코드를 입력하면 바로 합류돼요.
+  </p>
+</div>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search)
+  var code = (params.get('code') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)
+
+  // 코드 칸 렌더 — 코드가 없으면 안내만 노출
+  var box = document.getElementById('codeBox')
+  if (code) {
+    for (var i = 0; i < 6; i++) {
+      var el = document.createElement('div')
+      el.className = 'ch'
+      el.textContent = code[i] || ''
+      box.appendChild(el)
+    }
+  } else {
+    box.innerHTML = '<div style="color:#A8A8A8;font-size:14px">초대 코드가 없는 링크예요</div>'
+    document.getElementById('copyBtn').style.display = 'none'
+  }
+
+  // 앱 열기 — Expo Router가 path로 인식하도록 슬래시 3개 유지 (moa:///join)
+  var appUrl = 'moa:///join' + (code ? '?code=' + code : '')
+  document.getElementById('openApp').setAttribute('href', appUrl)
+
+  // 코드 복사
+  var btn = document.getElementById('copyBtn')
+  btn.addEventListener('click', function () {
+    if (!code) return
+    var done = function () {
+      btn.textContent = '복사했어요!'
+      btn.classList.add('done')
+      setTimeout(function () {
+        btn.textContent = '코드 복사하기'
+        btn.classList.remove('done')
+      }, 2000)
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done).catch(fallback)
+    } else {
+      fallback()
+    }
+    function fallback () {
+      var ta = document.createElement('textarea')
+      ta.value = code
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      try { document.execCommand('copy'); done() } catch (e) {}
+      document.body.removeChild(ta)
+    }
+  })
+
+  // 플랫폼별 스토어 버튼 정리 — 해당 없는 건 숨김
+  var ua = navigator.userAgent || ''
+  var isAndroid = /Android/i.test(ua)
+  var isIOS = /iPhone|iPad|iPod/i.test(ua) ||
+              (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+  if (isAndroid) document.getElementById('appStoreBtn').style.display = 'none'
+  if (isIOS) document.getElementById('playBtn').style.display = 'none'
+
+  // 카카오톡 인앱 브라우저 안내 — App Links가 안 걸리는 대표 케이스
+  if (/KAKAOTALK/i.test(ua)) {
+    document.getElementById('kakaoTip').classList.add('show')
+  }
+})()
+</script>
+</body>
+</html>
